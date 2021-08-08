@@ -1,4 +1,4 @@
-helpers = {
+const helpers = {
 
   vertexRotateZXY (v, xAngle, yAngle, zAngle) {
     let rm = {
@@ -144,6 +144,30 @@ helpers = {
     )
     colorMode(RGB, 255)
     return c
-  }
+  },
 
+  colorToRGB (color) {
+    return {
+      r: red(color),
+      g: green(color),
+      b: blue(color)
+    }
+  },
+
+  colorToRGBA (color) {
+    return {
+      r: red(color),
+      g: green(color),
+      b: blue(color),
+      a: alpha(color)
+    }
+  },
+
+  colorFromRGB (obj) {
+    return color(obj.r, obj.g, obj.b)
+  },
+
+  colorFromRGBA (obj) {
+    return color(obj.r, obj.g, obj.b, obj.a)
+  }
 }

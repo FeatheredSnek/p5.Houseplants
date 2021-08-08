@@ -90,14 +90,16 @@ class Stalk extends Mesh {
         z: this.position.z
       },
       rotation: {
-        x: this.position.x,
-        y: this.position.y,
-        z: this.position.z
+        x: this.rotation.x,
+        y: this.rotation.y,
+        z: this.rotation.z
       },
-      length: this.length,
-      resolution: this.resolution,
-      curvature: this.curvature,
-      thickness: this.thickness,
+      meshParams: {
+        length: this.length,
+        resolution: this.resolution,
+        curvature: this.curvature,
+        thickness: this.thickness
+      }
     }
     if (print) console.log(p);
     return p

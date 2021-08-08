@@ -1,72 +1,145 @@
 class Plant {
-  constructor (potParams, stalksParams, leavesParams, leafTextureParams, potTextureParams, baseGreen, baseBrown) {
-    this.baseGreen = helpers.getRandomGreen()
-    this.baseBrown = helpers.getRandomBrown()
-    this.potTexture = new PotTexture(PotTexture.getRandomParams(), this.baseBrown)
-    this.leafTexture = new LeafTexture(LeafTexture.getRandomParams(), this.baseGreen)
+  constructor (customData) {
 
-    potParams, stalksParams, leavesParams = null
+    this.baseGreen = customData ?
+    helpers.colorFromRGB(customData.baseGreen) :
+    helpers.getRandomGreen()
 
-    this.pot = this.createPot(potParams)
-    let stalkCount = this.pot.bottomRadius < 30 ? random([2,3]) : random([3,4,5])
+    this.baseBrown = customData ?
+    helpers.colorFromRGB(customData.baseBrown) :
+    helpers.getRandomBrown()
 
-    this.stalks = this.createStalks(stalkCount, stalksParams)
-    this.leaves = this.createLeaves(leavesParams)
+    this.potTexture = customData ?
+      new PotTexture(customData.potTextureData, this.baseBrown) :
+      new PotTexture(PotTexture.getRandomParams(), this.baseBrown)
+
+    this.leafTexture = customData ?
+      new LeafTexture(customData.leafTextureData.params, customData.leafTextureData.colors) :
+      new LeafTexture(LeafTexture.getRandomParams(), LeafTexture.generateColors(this.baseGreen))
+
+    this.pot = customData ?
+      this.createPot(customData.potData) :
+      this.createPot()
+
+    this.stalkCount = customData ?
+      customData.stalkCount :
+      this.pot.bottomRadius < 30 ? random([2,3]) : random([3,4,5])
+
+    this.stalkSpread = customData ?
+      customData.stalkSpread :
+      this.pot.groundRadius * random(0.1, 0.25)
+
+    this.stalks = customData ?
+      this.createStalks(customData.stalkData) :
+      this.createStalks()
+
+    this.leaves = customData ?
+      this.createLeaves(customData.leafData) :
+      this.createLeaves()
 
     this.log()
+
   }
 
-  createPot (potParams) {
-    return new Pot(createVector(0,0,0), createVector(0,0,0), Pot.getRandomParams(), this.potTexture)
+  createPot (potData) {
+    if (potData) {
+      // console.log('custom pot');
+      return new Pot(potData.position, potData.rotation, potData.meshParams, this.potTexture)
+    }
+    else {
+      // console.log('default pot');
+      return new Pot(createVector(0,0,0), createVector(0,0,0), Pot.getRandomParams(), this.potTexture)
+    }
   }
 
-  createStalks (count, stalksParams) {
-    let baseParams = Stalk.getRandomParams()
+  createStalks (instanceParamsArr) {
     let stalks = []
-    let radius = this.pot.groundRadius * random(0.1, 0.25)
+    let baseParams = instanceParamsArr ? null : Stalk.getRandomParams()
+    let count = this.stalkCount
+    let radius = this.stalkSpread
     let radialStep = TAU / count
     for (let i = 0; i < count; i++) {
-      let x = cos(radialStep * i) * radius * random(0.8, 1.2)
-      let z = sin(radialStep * i) * radius * random(0.8, 1.2)
-      let y = this.pot.groundHeight
-      let rotationWiggle = count > 4 ? random(0.9, 1.1) : random(0.8, 1.2)
-      let yRotation = TAU - radialStep * i * rotationWiggle
-      let position = createVector(x, y, z)
-      let rotation = createVector(0, yRotation, 0)
-      let instanceParams = Stalk.wiggleParams(baseParams)
-      stalks.push(new Stalk(position, rotation, instanceParams, this.baseGreen))
+      let position, rotation, meshParams
+      if (instanceParamsArr) {
+        position = createVector(
+          instanceParamsArr[i].position.x,
+          instanceParamsArr[i].position.y,
+          instanceParamsArr[i].position.z
+        )
+        rotation = createVector(
+          instanceParamsArr[i].rotation.x,
+          instanceParamsArr[i].rotation.y,
+          instanceParamsArr[i].rotation.z
+        )
+        meshParams = instanceParamsArr[i].meshParams
+      }
+      else {
+        let x = cos(radialStep * i) * radius * random(0.8, 1.2)
+        let z = sin(radialStep * i) * radius * random(0.8, 1.2)
+        let y = this.pot.groundHeight
+        let rotationWiggle = count > 4 ? random(0.9, 1.1) : random(0.8, 1.2)
+        let yRotation = TAU - radialStep * i * rotationWiggle
+        position = createVector(x, y, z)
+        rotation = createVector(0, yRotation, 0)
+        meshParams = Stalk.wiggleParams(baseParams)
+      }
+      stalks.push(new Stalk(position, rotation, meshParams, this.baseGreen))
     }
     return stalks
   }
 
-  createLeaves (leavesParams) {
+  createLeaves (instanceParamsArr) {
     let leaves = []
-    let baseParams = Leaf.getRandomParams()
-    for (let stalk of this.stalks) {
-      let instanceParams = Leaf.wiggleParams(baseParams)
-      let leafAnchor = stalk.getTip()
-      let xMod = random(-0.1, 0.1)
-      let zMod = random(-0.1, 0.1)
-      let yMod = this.stalks.length > 3 ? random(-0.2, 0.2) : random(-0.4, 0.4)
-      let leafRotation = createVector(
-        stalk.rotation.x + xMod,
-        stalk.rotation.y + yMod,
-        stalk.rotation.z + zMod
-      )
-      leaves.push(new Leaf(leafAnchor, leafRotation, instanceParams, this.leafTexture))
+    let baseParams = instanceParamsArr ? null : Leaf.getRandomParams()
+    if (instanceParamsArr) {
+      for (let instanceParams of instanceParamsArr) {
+        let position, rotation, meshParams
+        position = createVector(
+          instanceParams.position.x,
+          instanceParams.position.y,
+          instanceParams.position.z
+        )
+        rotation = createVector(
+          instanceParams.rotation.x,
+          instanceParams.rotation.y,
+          instanceParams.rotation.z
+        )
+        meshParams = instanceParams.meshParams
+        leaves.push(new Leaf(position, rotation, meshParams, this.leafTexture))
+      }
+    }
+    else {
+      for (let stalk of this.stalks) {
+        let position, rotation, meshParams
+        let xMod = random(-0.1, 0.1)
+        let zMod = random(-0.1, 0.1)
+        let yMod = this.stalks.length > 3 ? random(-0.2, 0.2) : random(-0.4, 0.4)
+        meshParams = Leaf.wiggleParams(baseParams)
+        position = stalk.getTip()
+        rotation = createVector(
+          stalk.rotation.x + xMod,
+          stalk.rotation.y + yMod,
+          stalk.rotation.z + zMod
+        )
+        leaves.push(new Leaf(position, rotation, meshParams, this.leafTexture))
+      }
     }
     return leaves
   }
 
   log () {
-    let pot = this.pot.log()
-    let stalks = []
-    let leaves = []
-    this.stalks.forEach(s => stalks.push(s.log()))
-    this.leaves.forEach(l => leaves.push(l.log()))
-    console.log(pot);
-    console.log(stalks);
-    console.log(leaves);
+    let customData = {
+      stalkCount: this.stalkCount,
+      stalkSpread: this.stalkSpread,
+      baseBrown: helpers.colorToRGB(this.baseBrown),
+      baseGreen: helpers.colorToRGB(this.baseGreen),
+      leafTextureData: this.leafTexture.log(),
+      potTextureData: this.potTexture.log(),
+      potData: this.pot.log(),
+      stalkData: Array.from(this.stalks, s => s.log()),
+      leafData: Array.from(this.leaves, l => l.log()),
+    }
+    console.log(JSON.stringify(customData))
   }
 
   draw () {

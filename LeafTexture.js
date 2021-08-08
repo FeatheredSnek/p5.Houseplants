@@ -1,10 +1,6 @@
 class LeafTexture {
-  constructor (customParams, baseColor) {
-    let base = baseColor || color('green')
-    let randomizedColors = LeafTexture.generateLeafColors(base)
-    this.baseColor = randomizedColors.baseColor
-    this.gradientColor = randomizedColors.gradientColor
-    this.veinColor = randomizedColors.veinColor
+  constructor (customParams, customColors) {
+    this.colors = customColors || LeafTexture.generateColors(color('green'))
 
     let params = customParams || LeafTexture.getDefaultParams()
     this.gradientFactor = params.gradientFactor
@@ -21,9 +17,9 @@ class LeafTexture {
     img.loadPixels()
     let x, y;
 
-    let gradientColorA = this.baseColor
-    let gradientColorB = this.gradientColor
-    let veinColor = this.veinColor
+    let gradientColorA = this.colors.baseColor
+    let gradientColorB = this.colors.gradientColor
+    let veinColor = this.colors.veinColor
 
     // first pass, fill backdrop with linear gradient
     let yChunk = round(255 / img.height)
@@ -107,7 +103,7 @@ class LeafTexture {
     this.image = this.generateImage()
   }
 
-  static generateLeafColors (base) {
+  static generateColors (base) {
     colorMode(HSB, 360, 100, 100)
     let lightened = color(
       hue(base) + random(-20,10),
@@ -160,5 +156,20 @@ class LeafTexture {
       veinSlope: random(0.3, 1.1), // 0 for horizontal, inf for vertical
       veinThickness: random(2, 10) // in pixels
     }
+  }
+
+  log (print) {
+    let p = {
+      colors: this.colors,
+      params: {
+        gradientFactor: this.gradientFactor,
+        verticalVeinWidth: this.verticalVeinWidth,
+        veinCount: this.veinCount,
+        veinSlope: this.veinSlope,
+        veinThickness: this.veinThickness
+      }
+    }
+    if (print) console.log(p)
+    return p
   }
 }

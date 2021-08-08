@@ -195,17 +195,19 @@ class Leaf extends Mesh {
         z: this.position.z
       },
       rotation: {
-        x: this.position.x,
-        y: this.position.y,
-        z: this.position.z
+        x: this.rotation.x,
+        y: this.rotation.y,
+        z: this.rotation.z
       },
-      length: this.length,
-      width: this.width,
-      resolution: this.resolution,
-      skew: this.skew,
-      fatness: this.fatness,
-      curvature: this.curvature,
-      outline: this.outline
+      meshParams: {
+        length: this.length,
+        width: this.width,
+        resolution: this.resolution,
+        skew: this.skew,
+        fatness: this.fatness,
+        curvature: this.curvature,
+        outline: this.outline
+      }
     }
     if (print) console.log(p);
     return p

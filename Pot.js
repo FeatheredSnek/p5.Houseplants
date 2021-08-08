@@ -179,16 +179,18 @@ class Pot extends Mesh {
         z: this.position.z
       },
       rotation: {
-        x: this.position.x,
-        y: this.position.y,
-        z: this.position.z
+        x: this.rotation.x,
+        y: this.rotation.y,
+        z: this.rotation.z
       },
-      height: this.height,
-      bottomRadius: this.bottomRadius,
-      slant: this.slant,
-      extrusionWidth: this.extrusionWidth,
-      extrusionLevel: this.extrusionLevel,
-      resolution: this.resolution
+      meshParams: {
+        height: this.height,
+        bottomRadius: this.bottomRadius,
+        slant: this.slant,
+        extrusionWidth: this.extrusionWidth,
+        extrusionLevel: this.extrusionLevel,
+        resolution: this.resolution
+      }
     }
     if (print) console.log(p);
     return p

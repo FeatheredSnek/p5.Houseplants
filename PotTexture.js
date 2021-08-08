@@ -94,4 +94,18 @@ class PotTexture {
     }
   }
 
+  log (print) {
+    let p = {
+      baseColor: {
+        r: red(this.baseColor),
+        g: green(this.baseColor),
+        b: blue(this.baseColor),
+      },
+      shadowIntensity: this.shadowIntensity,
+      highlightIntensity: this.highlightIntensity
+    }
+    if (print) console.log(p);
+    return p
+  }
+
 }
