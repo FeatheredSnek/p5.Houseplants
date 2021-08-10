@@ -14,13 +14,8 @@ class PotTexture {
     let img = new p5.Image(64,64)
     img.loadPixels()
 
-    let gradientColorA = {
-      r: red(this.baseColor),
-      g: green(this.baseColor),
-      b: blue(this.baseColor),
-      a: 255
-    }
-    let gradientColorB = {r: 0, g: 0, b: 0, a: 255}
+    let gradientColorA = helpers.colorToRGBA(this.baseColor)
+    let gradientColorB = helpers.colorToRGBA(color('black'))
 
     // first pass - fill backdrop with linear gradient
     let yChunk = round(255 / img.height)
@@ -96,11 +91,7 @@ class PotTexture {
 
   log (print) {
     let p = {
-      baseColor: {
-        r: red(this.baseColor),
-        g: green(this.baseColor),
-        b: blue(this.baseColor),
-      },
+      baseColor: helpers.colorToRGB(this.baseColor),
       shadowIntensity: this.shadowIntensity,
       highlightIntensity: this.highlightIntensity
     }

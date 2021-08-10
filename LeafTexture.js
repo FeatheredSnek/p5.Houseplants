@@ -116,26 +116,11 @@ class LeafTexture {
       random(80, 100)
     )
     colorMode(RGB, 255)
-    // colors as rgb storing objects
-    let baseColor = {
-      r: red(base),
-      g: green(base),
-      b: blue(base),
-      a: 255
+    return {
+      baseColor: helpers.colorToRGBA(base),
+      gradientColor: helpers.colorToRGBA(lightened),
+      veinColor: helpers.colorToRGBA(vein)
     }
-    let gradientColor = {
-      r: red(lightened),
-      g: green(lightened),
-      b: blue(lightened),
-      a: 255
-    }
-    let veinColor = {
-      r: red(vein),
-      g: green(vein),
-      b: blue(vein),
-      a: 255
-    }
-    return {baseColor, gradientColor, veinColor}
   }
 
   static getDefaultParams () {
