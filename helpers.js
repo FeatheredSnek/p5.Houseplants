@@ -169,5 +169,17 @@ const helpers = {
 
   colorFromRGBA (obj) {
     return color(obj.r, obj.g, obj.b, obj.a)
+  },
+
+  vectorToValues (vec) {
+    return {
+      x: vec.x,
+      y: vec.y,
+      z: vec.z
+    }
+  },
+
+  vectorFromValues (obj) {
+    return createVector(obj.x, obj.y, obj.z)
   }
 }
