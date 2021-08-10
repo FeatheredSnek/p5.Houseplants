@@ -61,16 +61,8 @@ class Plant {
     for (let i = 0; i < count; i++) {
       let position, rotation, meshParams
       if (instanceParamsArr) {
-        position = createVector(
-          instanceParamsArr[i].position.x,
-          instanceParamsArr[i].position.y,
-          instanceParamsArr[i].position.z
-        )
-        rotation = createVector(
-          instanceParamsArr[i].rotation.x,
-          instanceParamsArr[i].rotation.y,
-          instanceParamsArr[i].rotation.z
-        )
+        position = helpers.vectorFromValues(instanceParamsArr[i].position)
+        rotation = helpers.vectorFromValues(instanceParamsArr[i].rotation)
         meshParams = instanceParamsArr[i].meshParams
       }
       else {
@@ -94,16 +86,8 @@ class Plant {
     if (instanceParamsArr) {
       for (let instanceParams of instanceParamsArr) {
         let position, rotation, meshParams
-        position = createVector(
-          instanceParams.position.x,
-          instanceParams.position.y,
-          instanceParams.position.z
-        )
-        rotation = createVector(
-          instanceParams.rotation.x,
-          instanceParams.rotation.y,
-          instanceParams.rotation.z
-        )
+        position = helpers.vectorFromValues(instanceParams.position)
+        rotation = helpers.vectorFromValues(instanceParams.rotation)
         meshParams = instanceParams.meshParams
         leaves.push(new Leaf(position, rotation, meshParams, this.leafTexture))
       }
