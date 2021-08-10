@@ -11,7 +11,7 @@ class Leaf extends Mesh {
     this.width = params.width
     this.resolution = params.resolution
     this.skew = params.skew
-    this.fatness = params.fatness
+    this.thickness = params.thickness
     this.curvature = params.curvature
     this.outline = params.outline || null
 
@@ -42,7 +42,7 @@ class Leaf extends Mesh {
       let x = (i / (this.resolution - 1)) * this.resolution * lengthStep
       let zshape = sin(i / (this.resolution - 1) * PI)
       let zskew = 1 - ( this.skew * (i / this.resolution) )
-      let z = pow(zshape, this.fatness) * zskew * this.resolution * widthStep
+      let z = pow(zshape, this.thickness) * zskew * this.resolution * widthStep
       let vert = createVector(x, y, z)
       vertices.push(vert)
     }
@@ -52,7 +52,7 @@ class Leaf extends Mesh {
       let y = sin((i / (this.resolution - 1)) * PI) * 50 * this.curvature
       let zshape = sin(i / (this.resolution - 1) * PI)
       let zskew = 1 - ( this.skew * (i / this.resolution) )
-      let z = pow(zshape, this.fatness) * zskew * this.resolution * widthStep * -1
+      let z = pow(zshape, this.thickness) * zskew * this.resolution * widthStep * -1
       let vert = createVector(x, y, z)
       vertices.push(vert)
     }
@@ -152,7 +152,7 @@ class Leaf extends Mesh {
       width: 60,
       resolution: 4, // 4 - 8 (low polygon count - high polygon count)
       skew: 0.6, // 0.2 - 1.5 (round end - pointy end)
-      fatness: 1, // 0.1 - 2.0 (round start - pointy start)
+      thickness: 1, // 0.1 - 2.0 (round start - pointy start)
       curvature: 0.8, // 0 - 1.5 (flat - curved)
       outline: 'green' // optional color value
     }
@@ -167,7 +167,7 @@ class Leaf extends Mesh {
       width,
       resolution,
       skew: random(0.3, 1.4),
-      fatness: random(0.2, 1.9),
+      thickness: random(0.2, 1.9),
       curvature: random(0.3, 1.5),
       outline: null
     }
@@ -179,7 +179,7 @@ class Leaf extends Mesh {
       width: baseParams.width * random(0.8, 1.2),
       resolution: baseParams.resolution,
       skew: baseParams.skew * random(0.8, 1.2),
-      fatness: baseParams.fatness * random(0.8, 1.2),
+      thickness: baseParams.thickness * random(0.8, 1.2),
       curvature: (baseParams.length > 100 ?
                   baseParams.curvature * random(0.5, 1.5) :
                   baseParams.curvature * random(0.1, 1.8)),
@@ -204,7 +204,7 @@ class Leaf extends Mesh {
         width: this.width,
         resolution: this.resolution,
         skew: this.skew,
-        fatness: this.fatness,
+        thickness: this.thickness,
         curvature: this.curvature,
         outline: this.outline
       }
