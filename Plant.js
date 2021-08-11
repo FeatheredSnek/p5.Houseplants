@@ -123,7 +123,11 @@ class Plant {
       stalkData: Array.from(this.stalks, s => s.log()),
       leafData: Array.from(this.leaves, l => l.log()),
     }
-    console.log(JSON.stringify(customData))
+    parser.minify(customData)
+    const jsonData_mini = parser.encodeJSON(JSON.stringify(customData))
+    const jsonData_maxi = parser.decodeJSON(jsonData_mini)
+    console.log(jsonData_mini);
+    console.log(jsonData_maxi);
   }
 
   draw () {
