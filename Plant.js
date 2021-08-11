@@ -111,7 +111,7 @@ class Plant {
     return leaves
   }
 
-  log () {
+  log (print) {
     let customData = {
       stalkCount: this.stalkCount,
       stalkSpread: this.stalkSpread,
@@ -123,11 +123,14 @@ class Plant {
       stalkData: Array.from(this.stalks, s => s.log()),
       leafData: Array.from(this.leaves, l => l.log()),
     }
-    parser.minify(customData)
-    const jsonData_mini = parser.encodeJSON(JSON.stringify(customData))
-    const jsonData_maxi = parser.decodeJSON(jsonData_mini)
-    console.log(jsonData_mini);
-    console.log(jsonData_maxi);
+    if (print) console.log(customData)
+    return customData
+  }
+
+  encode () {
+    let code = parser.plantToCode(this.log())
+    console.log(code);
+    return code
   }
 
   draw () {
