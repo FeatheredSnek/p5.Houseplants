@@ -159,7 +159,7 @@ const helpers = {
       r: red(color),
       g: green(color),
       b: blue(color),
-      a: round(alpha(color) * 255)
+      a: 255
     }
   },
 
