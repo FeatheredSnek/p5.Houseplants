@@ -1,42 +1,11 @@
 const parser = {
 
-  minify (data) {
-    parser.minifyColors(data.baseBrown)
-    parser.minifyColors(data.baseGreen)
-    for (let c in data.leafTextureData.colors) {
-      parser.minifyColors(data.leafTextureData.colors[c])
-    }
-    parser.minifyColors(data.potTextureData.baseColor)
-    parser.minifyValues(data)
-    parser.minifyValues(data.leafTextureData.params)
-    parser.minifyValues(data.potTextureData)
-    for (let p in data.potData) {
-      parser.minifyValues(data.potData[p])
-    }
-    data.stalkData.forEach(stalk => {
-      for (let p in stalk) {
-        parser.minifyValues(stalk[p])
-      }
-    })
-    data.leafData.forEach(leaf => {
-      for (let p in leaf) {
-        parser.minifyValues(leaf[p])
-      }
-    })
-  },
-
-  minifyColors (cObj) {
-    for (let p in cObj) {
-      cObj[p] = round(cObj[p])
-    }
-  },
-
-  minifyValues (obj) {
-    for (let p in obj) {
-      if (typeof(obj[p]) === 'number') {
-        obj[p] = Number.parseFloat(obj[p].toFixed(2))
-      }
-    }
+  plantToCode (data) {
+    let json = JSON.stringify(
+      data,
+      (k, v) => {return typeof v == 'number' ? Number.parseFloat(v.toFixed(2)) : v}
+    )
+    return parser.encodeJSON(json)
   },
 
   encodeJSON (json) {
