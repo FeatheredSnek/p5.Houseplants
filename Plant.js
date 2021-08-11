@@ -37,17 +37,13 @@ class Plant {
       this.createLeaves(customData.leafData) :
       this.createLeaves()
 
-    this.log()
-
   }
 
   createPot (potData) {
     if (potData) {
-      // console.log('custom pot');
       return new Pot(potData.position, potData.rotation, potData.meshParams, this.potTexture)
     }
     else {
-      // console.log('default pot');
       return new Pot(createVector(0,0,0), createVector(0,0,0), Pot.getRandomParams(), this.potTexture)
     }
   }
