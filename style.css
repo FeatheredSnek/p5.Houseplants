@@ -1,7 +1,187 @@
-html, body {
-  margin: 0;
-  padding: 0;
+:root {
+  --canvas-size: 400px;
+  font-size: 18px;
 }
+
+html, body {
+  margin: 10px 0 0 0;
+  padding: 0;
+  background-color: #333;
+  color: #ccc;
+  font-family: 'Share', sans-serif;
+  font-weight: normal;
+}
+
+p {
+  margin: 0;
+  padding: 0
+}
+
 canvas {
   display: block;
+}
+
+.main-wrapper {
+  padding: 20px;
+  margin: auto;
+  max-width: var(--canvas-size);
+  background-color: #eee;
+  box-shadow: 0px 5px 40px black;
+}
+
+.canvas-wrapper {
+  width: var(--canvas-size);
+  height: var(--canvas-size);
+  margin: auto;
+  outline: solid 1px #ddd;
+}
+
+.bottom-wrapper {
+  margin: auto;
+  width: var(--canvas-size);;
+  height: 100px;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.buttons-wrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background-position: center;
+  background-size: contain;
+  background-color: rgba(0,0,0,0);
+  transition: transform 0.2s ease-out;
+}
+
+button:focus {
+  outline: solid 1px #bbb;
+}
+
+.buttons-wrapper > button {
+  /* background: lime; */
+  box-sizing: border-box;
+  margin: 0 4px;
+  width: 18px;
+  height: 18px;
+}
+
+.buttons-wrapper > button:hover {
+  transform: scale(1.3);
+}
+
+#play {
+  background-image: url('icons/play.svg');
+}
+
+#eject {
+  background-image: url('icons/eject.svg');
+}
+
+#reload {
+  background-image: url('icons/reload.svg');
+}
+
+.modal{
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 45px;
+}
+
+.modal > div {
+  padding: 30px;
+  background-color: #eee;
+  box-shadow: 0px 5px 40px rgba(0,0,0,0.33);
+  max-width: 500px;
+  /* height: 100px; */
+  margin: auto;
+  text-align: center;
+  color: #bbb ;
+}
+
+.modal > div > p:first-child {
+  font-weight: bold;
+  padding-bottom: 20px;
+}
+
+.modal > div > p:last-child {
+  text-align: justify;
+  font-weight: normal;
+  font-size: 12px;
+  word-break: break-all;
+}
+
+textarea {
+  border: none;
+  outline: solid 1px #ddd;
+  background-color: #f4f4f4;
+  resize: none;
+  width: 100%;
+  height: 100px;
+}
+
+textarea:focus {
+  outline: solid 1px #bbb;
+}
+
+.modal > div > button {
+  width: 24px;
+  height: 24px;
+  background-image: url('icons/play.svg');
+}
+
+.modal-wrapper {
+  position: fixed;
+  width: 100%;
+  top: 45px;
+  transform: translateY(0px);
+  opacity: 1;
+  transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+  /* transition: opacity 0.2s, ease-out; */
+}
+
+.modal-disabled {
+  transform: translateY(-100px);
+  opacity: 0;
+}
+
+.modal-content {
+  position: relative;
+  left: 130px;
+  padding: 20px 30px;
+  background-color: #eee;
+  box-shadow: 0px 5px 20px rgba(0,0,0,0.15);
+  max-width: 150px;
+  margin: auto;
+  text-align: center;
+  color: #bbb ;
+}
+
+
+input {
+  font-size: 18px;
+  font-weight: 400;
+  color: #aaa;
+  font-family: 'Share', sans-serif;
+  font-weight: normal;
+  border: none;
+  outline: solid 1px #dfdfdf;
+  background-color: #eee;
+  resize: none;
+}
+
+input::placeholder {
+  color: #aaa;
+  opacity: 0.75;
+}
+
+input:focus {
+  outline: solid 1px #bbb;
 }
