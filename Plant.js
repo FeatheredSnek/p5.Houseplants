@@ -123,12 +123,6 @@ class Plant {
     return customData
   }
 
-  encode () {
-    let code = parser.plantToCode(this.log())
-    console.log(code);
-    return code
-  }
-
   draw () {
     this.pot.draw()
     this.stalks.forEach(stalk => stalk.draw())
