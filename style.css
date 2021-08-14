@@ -115,6 +115,7 @@ button:focus {
 
 input {
   font-size: 18px;
+  height: 20px;
   font-weight: 400;
   color: #aaa;
   font-family: 'Share', sans-serif;
@@ -125,9 +126,16 @@ input {
   resize: none;
 }
 
-input::placeholder {
-  color: #aaa;
-  opacity: 0.75;
+label {
+  cursor:text;
+  color: #bbb;
+  position: relative;
+  top: 21px;
+  transition: top 0.2s ease-out;
+}
+
+.risen {
+  top: 0px;
 }
 
 input:focus {

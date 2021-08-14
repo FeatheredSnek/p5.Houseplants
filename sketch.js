@@ -5,6 +5,7 @@ let modalShown = false
 const modalWrapper = document.getElementById('modal')
 const modalContent = document.getElementById('modal-content')
 const inputField = document.getElementById('code-input')
+const inputLabel = document.getElementById('code-label')
 
 function loadRandomPlant () {
   noLoop()
@@ -57,6 +58,18 @@ function showModalMessage (message, time) {
     }, time * 1000)
   }
 }
+
+function riseLabel () {
+  console.log('RISE');
+  inputLabel.classList.add('risen')
+}
+
+function lowerLabel () {
+  inputLabel.classList.remove('risen')
+}
+
+inputField.addEventListener('focusin', riseLabel)
+inputField.addEventListener('focusout', lowerLabel)
 
 function setup() {
   canvasElement = createCanvas(400, 400, WEBGL)

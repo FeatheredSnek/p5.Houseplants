@@ -21,7 +21,10 @@
     <div class="main-wrapper">
       <div class="canvas-wrapper" id="canvas-wrapper"></div>
       <div class="bottom-wrapper">
-        <input type="text" id="code-input" placeholder="Paste plant code here" />
+        <div class="input-wrapper">
+          <label id="code-label" for="code-input">Paste plant code here</label>
+          <input type="text" id="code-input"/>
+        </div>
         <div class="buttons-wrapper">
           <button id="play" onclick="loadPlantFromCode()"/>
           <button id="eject" onclick="copyPlantToClipboard()"/>
