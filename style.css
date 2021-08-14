@@ -7,7 +7,7 @@ html, body {
   margin: 10px 0 0 0;
   padding: 0;
   background-color: #333;
-  color: #ccc;
+  color: #bbb;
   font-family: 'Share', sans-serif;
   font-weight: normal;
 }
@@ -110,7 +110,6 @@ button:focus {
   max-width: 150px;
   margin: auto;
   text-align: center;
-  color: #bbb ;
 }
 
 input {
@@ -128,7 +127,6 @@ input {
 
 label {
   cursor:text;
-  color: #bbb;
   position: relative;
   top: 21px;
   transition: top 0.2s ease-out;
@@ -140,4 +138,31 @@ label {
 
 input:focus {
   outline: solid 1px #bbb;
+}
+
+@media (prefers-contrast: more) {
+
+  #play {
+    background-image: url('icons/play-black.svg');
+  }
+
+  #eject {
+    background-image: url('icons/eject-black.svg');
+  }
+
+  #reload {
+    background-image: url('icons/reload-black.svg');
+  }
+
+  input {
+    outline: solid 1px black;
+  }
+
+  input:focus {
+    outline: solid 1px black;
+  }
+
+  body {
+    color: black;
+  }
 }
