@@ -10,21 +10,22 @@ class Pot extends Mesh {
     this.height = params.height
     this.slant = params.slant
     this.bottomRadius = params.bottomRadius
-    this.topRadius = params.bottomRadius * (1 + params.slant)
     this.extrusionLevel = params.extrusionLevel
     this.extrusionWidth = params.extrusionWidth
     this.extrusionHeight = params.height * params.extrusionLevel
-    this.extrusionBottomRadius = params.bottomRadius * (1 + params.slant * params.extrusionLevel) + params.extrusionWidth
-    this.extrusionTopRadius = params.bottomRadius * (1 + params.slant) + params.extrusionWidth
-    this.groundHeight = 0.9 * params.height
-    this.groundRadius = params.bottomRadius * (1 + params.slant * 0.9)
     this.resolution = params.resolution
 
+    let topRadius = params.bottomRadius * (1 + params.slant)
+    let extrusionBottomRadius = params.bottomRadius * (1 + params.slant * params.extrusionLevel) + params.extrusionWidth
+    let extrusionTopRadius = params.bottomRadius * (1 + params.slant) + params.extrusionWidth
+    let groundRadius = params.bottomRadius * (1 + params.slant * 0.9)
+    let groundHeight = 0.9 * params.height
+
     this.bottomVertices = this.vertexRing(this.bottomRadius, 0)
-    this.topVertices = this.vertexRing(this.topRadius, this.height)
-    this.extrusionBottomVertices = this.vertexRing(this.extrusionBottomRadius, this.extrusionHeight)
-    this.extrusionTopVertices = this.vertexRing(this.extrusionTopRadius, this.height)
-    this.groundVertices = this.vertexRing(this.groundRadius, this.groundHeight)
+    this.topVertices = this.vertexRing(topRadius, this.height)
+    this.extrusionBottomVertices = this.vertexRing(extrusionBottomRadius, this.extrusionHeight)
+    this.extrusionTopVertices = this.vertexRing(extrusionTopRadius, this.height)
+    this.groundVertices = this.vertexRing(groundRadius, groundHeight)
 
     this.texture = texture || null
 
@@ -51,12 +52,14 @@ class Pot extends Mesh {
     return vertices
   }
 
-  // overloads parent Mesh method because of Pot's vertices structure (array of ring-arrays)
+  // Overloads parent Mesh.rotateMesh method because of Pot's vertices structure
+  // (array of ring-arrays).
   rotateMesh (rotationVector) {
     this.vertices.forEach(arr => arr = Mesh.rotateVertices(arr, rotationVector))
   }
 
-  // overloads parent Mesh method because of Pot's vertices structure (array of ring-arrays)
+  // Overloads parent Mesh.translateMesh method because of Pot's vertices structure
+  // (array of ring-arrays).
   translateMesh (translationVector) {
     this.vertices.forEach(arr => arr = Mesh.translateVertices(arr, translationVector))
   }
