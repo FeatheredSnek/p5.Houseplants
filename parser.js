@@ -1,5 +1,11 @@
+// Parser script used for conversions between short-ish plant codes and full
+// data objects which can be passed into a plant instance constructor.
+
 const parser = {
 
+  // Wrapper function that truncates the floats to 2 decimal places (which is
+  // more than enough precision for the job), converts the data object to json
+  // and then encodes the result.
   plantToCode (data) {
     let json = JSON.stringify(
       data,
@@ -8,6 +14,9 @@ const parser = {
     return parser.encodeJSON(json)
   },
 
+  // Encoding and decoding by simple substitution (table below).
+  // The codes use as much symbols as possible to avoid ambiguity and to shorten
+  // the result.
   encodeJSON (json) {
     for (let code of parser.codes) {
       json = json.replaceAll(code[0], code[1])
@@ -22,6 +31,7 @@ const parser = {
     return str
   },
 
+  // Validation wrapper, uses try-catch to handle JSON parsing errors
   parseInput (inputCode) {
     let inputJSON = parser.decodeJSON(inputCode)
     let isValid = false
@@ -43,6 +53,10 @@ const parser = {
     }
   },
 
+  // Validator that ensures proper data structure.
+  // It recursively travels the template's properties and checks if their values
+  // have the same structure in the validated object. If it encounters a primitive
+  // it checks if this primitive is a number (instance params are only int and float)
   validateStructure (obj, schema) {
     for (let p in schema) {
       let hasProp = obj.hasOwnProperty(p)

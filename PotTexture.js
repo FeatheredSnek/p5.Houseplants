@@ -1,3 +1,9 @@
+/* Pot texture object, stores its parameters and the actual image generated
+from these params. The image is a simple dark linear gradient coming from
+the bottom and a lighter line at the fixed height that serves as a highlight.
+With no arguments passed into the constructor, a random
+brown pot texture is generated */
+
 class PotTexture {
   constructor (customParams, baseColor) {
     let params = customParams || PotTexture.getDefaultParams()
@@ -32,7 +38,8 @@ class PotTexture {
       }
     }
 
-    // second pass - generate highlight line at fixed level
+    // second pass - generate highlight line at the fixed level
+    // the line consists of 2 gradients fading into opposide sides
     let highlightLevel = 0.8
     let highlightWidth = 5 // in pixels
     let highlightChunk = 40 * this.highlightIntensity
@@ -75,9 +82,9 @@ class PotTexture {
 
   static getDefaultParams () {
     return {
-      baseColor: 'brown',
-      shadowIntensity: 0.5,
-      highlightIntensity: 0.66,
+      baseColor: 'brown', // see helpers for the range of browns used
+      shadowIntensity: 0.5, // 0.3-0.6 (intensity of the darkening gradient)
+      highlightIntensity: 0.66, // 0.5-0.8 (intensity of the lightening gradient)
     }
   }
 

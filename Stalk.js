@@ -1,3 +1,6 @@
+/* Stalk object made out of n = resolution vertices, drawn as the line
+connecting them. Stalks are generated in 2d (z=0) and z-rotated afterwards. */
+
 class Stalk extends Mesh {
   constructor (positionVector, rotationVector, meshParams, color) {
     super()
@@ -19,6 +22,9 @@ class Stalk extends Mesh {
     this.translateMesh(this.position)
   }
 
+  // Generates a vector point in 2d space at coords, moves the coords n units
+  // upwards and vector-rotates it a certain amount - and repeats the process.
+  // This allows for a fixed length with variable curvature.
   generateVertices () {
     let lengthStep = this.length / this.resolution
     let coords = createVector(0,0)
@@ -50,10 +56,10 @@ class Stalk extends Mesh {
 
   static getDefaultParams () {
     return {
-      length: 80,
-      resolution: 3,
-      curvature: 0.33,
-      thickness: 3
+      length: 80, // 50-100 (short-long stalk)
+      resolution: 3, // 1-6 (# of vertices)
+      curvature: 0.33, // 0.1-0.4 (straight-curved stalk)
+      thickness: 3 // 2-5 (thickness of the drawn line (strokeWeight))
     }
   }
 

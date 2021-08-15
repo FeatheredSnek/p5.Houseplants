@@ -1,3 +1,10 @@
+/* Leaf texture object, stores its parameters and the actual image generated
+from these params.
+The image consists of a gradient backgrop, a V shaped central vein and of
+a several horizontal veins fading towards the sides.
+With no arguments passed into the constructor, a random
+brown pot texture is generated */
+
 class LeafTexture {
   constructor (customParams, customColors) {
     this.colors = customColors || LeafTexture.generateColors(color('green'))
@@ -137,7 +144,7 @@ class LeafTexture {
     return {
       gradientFactor: random(1, 1.6), // intensity multiplier of the secondary color
       verticalVeinWidth: random(3, 10), // half of the width in pixels
-      veinCount: random([0, 3, 3, 4, 4, 4, 4, 4, 5, 5, 6]), // array for non-uniform distribution
+      veinCount: random([0, 3, 3, 4, 4, 4, 4, 4, 5, 5, 6]), // random(array) for non-uniform distribution
       veinSlope: random(0.3, 1.1), // 0 for horizontal, inf for vertical
       veinThickness: random(2, 10) // in pixels
     }

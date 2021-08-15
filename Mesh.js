@@ -1,10 +1,14 @@
+/* Parent class for all meshes (collections of vector-stored vertices).
+Stores information about the general position and rotation as well as
+the vertices data. Performs rotation and translation. */
+
 class Mesh {
   constructor(positionVector, rotationVector) {
     this.position = positionVector
     this.rotation = rotationVector
     this.vertices = []
   }
-  
+
   rotateMesh (rotationVector) {
     this.vertices.forEach(v => {
       let rotated = Mesh.rotateVertex(v, rotationVector.x, rotationVector.y, rotationVector.z)
@@ -13,7 +17,7 @@ class Mesh {
       v.z = rotated.z
     })
   }
-  
+
   translateMesh (translationVector) {
     this.vertices.forEach(v => {
       v.x = v.x + translationVector.x
@@ -21,7 +25,7 @@ class Mesh {
       v.z = v.z + translationVector.z
     })
   }
-  
+
   static rotateVertex (v, xAngle, yAngle, zAngle) {
     // matrix for euler order zxy
     let rm = {
@@ -50,7 +54,7 @@ class Mesh {
     result.z = rm.z1 * vm.x + rm.z2 * vm.y + rm.z3 * vm.z
     return createVector(result.x, result.y, result.z)
   }
-  
+
   static rotateVertices (vertices, rotationVector) {
     vertices.forEach(v => {
       let rotated = Mesh.rotateVertex(v, rotationVector.x, rotationVector.y, rotationVector.y)
@@ -59,7 +63,7 @@ class Mesh {
       v.z = rotated.z
     })
   }
-  
+
   static translateVertices (vertices, translationVector) {
     vertices.forEach(v => {
       v.x = v.x + translationVector.x
@@ -67,5 +71,5 @@ class Mesh {
       v.z = v.z + translationVector.z
     })
   }
-  
+
 }

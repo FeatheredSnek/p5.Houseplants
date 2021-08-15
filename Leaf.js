@@ -1,3 +1,6 @@
+/* Leaf object. Stores its vertices and texture. Passing no parameters generates
+a random leaf, passing no texture results in a solid green leaf. */
+
 class Leaf extends Mesh {
   constructor (positionVector, rotationVector, meshParams, texture) {
     super()
@@ -23,11 +26,14 @@ class Leaf extends Mesh {
 
   }
 
+  // The leaf shape is roughly based on 2 sines, one of which is inverted in
+  // y axis. Some additional math is applied to give a leaf its proper and
+  // randomized shape.
   generateVertices () {
     let vertices = []
     let lengthStep = this.length / this.resolution
     let widthStep = this.width / this.resolution
-    // generate 2 sides of a leaf
+    // Generate 2 sides of a leaf - 2 lines made out of n=resolution vectors.
     for (let i = 0; i < this.resolution; i++) {
       let normalizedStep = (i / (this.resolution - 1))
       let y = sin((i / (this.resolution - 1)) * PI) * 50 * this.curvature
@@ -61,6 +67,8 @@ class Leaf extends Mesh {
     this.drawSurfaces()
   }
 
+  // This method is currenly unused, as the getParams methods do not
+  // generate any outline values.
   drawOutline () {
     stroke(this.outline)
     strokeWeight(3)
@@ -73,6 +81,12 @@ class Leaf extends Mesh {
     endShape()
   }
 
+  // Face drawing. p5 provides a beginShape(TESS) function for a collection of vertices
+  // however, there are two issues with using TESS:
+  // (1) it seems to require a specific order and orientation of vertices
+  // otherwise it fails to generate a surface,
+  // (2) I need to control the uv values of every vertex to ensure proper
+  // texture orientation
   drawSurfaces () {
     let uChunk = 1 / (this.resolution - 1)
     // generate i faces

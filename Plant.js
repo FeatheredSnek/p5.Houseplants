@@ -1,4 +1,16 @@
+/* This class aggregates all the parts into a Plant object.
+It works primarily by calling appropriate method of its children.
+Passing the data object to the constructor results in a custom plant,
+passing no arguments generates a random plant. Note that there's no internal
+validation of the customData argument in this class.
+A detailed data object of a given plant instance can be logged in the console
+by calling instance.log(true). Note that calling the log() gives a precise float
+values whereas the plant encoding functionality truncates everything
+beyond 2 decimal places. */
+
 class Plant {
+  // The order of color and geometry generation is crucial, as the parts
+  // generated later depend on the previously generated data
   constructor (customData) {
 
     this.baseGreen = customData ?
@@ -56,11 +68,14 @@ class Plant {
     let radialStep = TAU / count
     for (let i = 0; i < count; i++) {
       let position, rotation, meshParams
+      // If parameters are passed, stalks are generated accordingly.
       if (instanceParamsArr) {
         position = helpers.vectorFromValues(instanceParamsArr[i].position)
         rotation = helpers.vectorFromValues(instanceParamsArr[i].rotation)
         meshParams = instanceParamsArr[i].meshParams
       }
+      // If no parameters are passed stalks with randomized params are
+      // generated in a circle centered around the middle of pot's ground plane.
       else {
         let x = cos(radialStep * i) * radius * random(0.8, 1.2)
         let z = sin(radialStep * i) * radius * random(0.8, 1.2)
@@ -80,6 +95,7 @@ class Plant {
     let leaves = []
     let baseParams = instanceParamsArr ? null : Leaf.getRandomParams()
     if (instanceParamsArr) {
+      // If parameters are passed, leaves are generated accordingly.
       for (let instanceParams of instanceParamsArr) {
         let position, rotation, meshParams
         position = helpers.vectorFromValues(instanceParams.position)
@@ -88,6 +104,9 @@ class Plant {
         leaves.push(new Leaf(position, rotation, meshParams, this.leafTexture))
       }
     }
+    // If no parameters are passed, leaves are generated with similar
+    // but sligltly rerolled set of random parameters. One leaf is then
+    /// placed at the tip of each stalk.
     else {
       for (let stalk of this.stalks) {
         let position, rotation, meshParams

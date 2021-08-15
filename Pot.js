@@ -1,3 +1,12 @@
+/* Pot object. A pot geometry consists of 5 rings of vertices, each made
+out of n = resolution 3d vectors; surfaces between 4 of them make up
+the cylindrical outer shell, the last one is filled with color and serves
+as the ground for stalks. Surfaces are drawn in instance.draw().
+Pot's constructor requires a position and rotation arguments. Paramters are
+optional - if none are passed a random pot is generated (see getParams
+methods at the end of this file). Pot instance can store its own texture.
+If no texture is provided, the color defaults to brown. */
+
 class Pot extends Mesh {
   constructor (positionVector, rotationVector, meshParams, texture) {
     super()
@@ -64,6 +73,8 @@ class Pot extends Mesh {
     this.vertices.forEach(arr => arr = Mesh.translateVertices(arr, translationVector))
   }
 
+  // These particular u and v values passed to drawCylinder ensure that the
+  // texture's highlight is drawn at the right place and not stretched out too much.
   draw () {
     this.drawCylinder(this.bottomVertices, this.topVertices, 0, 0.5)
     this.drawCylinder(this.extrusionBottomVertices, this.extrusionTopVertices, 0.6, 0.8)
@@ -71,6 +82,8 @@ class Pot extends Mesh {
     this.drawRing(this.groundVertices, 51, true)
   }
 
+  // Draw ring is actually used only with filled=true for the ground, but it
+  // may also be used to generate some outlines.
   drawRing (vertexArray, color, filled) {
     if (filled) {
       fill(color)
@@ -89,6 +102,9 @@ class Pot extends Mesh {
     endShape()
   }
 
+  // Drawing method receives two vector 'rings' and their normalized heights
+  // with respect to the ground level which serve as the texture's u values.
+  // It generates n = resolution rectangular faces between the rings.
   drawCylinder (vertexArrayA, vertexArrayB, uA, uB) {
     if (vertexArrayA.length != vertexArrayB.length) {
       console.warn('Arrays not of equal length')
@@ -100,6 +116,7 @@ class Pot extends Mesh {
         let top2 = i < vertexArrayA.length-1 ? vertexArrayA[i+1] : vertexArrayA[0]
         let bot1 = vertexArrayB[i]
         let bot2 = i < vertexArrayB.length-1 ? vertexArrayB[i+1] : vertexArrayB[0]
+        // If a valid texture is passed faces are generated between xyzuv vertices
         if (this.texture instanceof PotTexture) {
           let v1 = i * vChunk
           let v2 = i < vertexArrayA.length-1 ? i * vChunk + vChunk : 0
@@ -115,6 +132,7 @@ class Pot extends Mesh {
           vertex(bot1.x, bot1.y, bot1.z, v1, uBinv)
           endShape()
         }
+        // If there's no valid texture argument u and v are ommited
         else {
           fill('brown')
           noStroke()
@@ -131,17 +149,17 @@ class Pot extends Mesh {
 
   static getDefaultParams () {
     return {
-      height: 80,
-      bottomRadius: 40,
-      slant: 0.4,
-      extrusionWidth: 10,
-      extrusionLevel: 0.7,
-      resolution: 8
+      height: 80, // 50-110 (height of the pot outer shell)
+      bottomRadius: 40, // 20-60 (radius at the bottom)
+      slant: 0.4, // 0.1-0.8 (cylindrical-slanted shape)
+      extrusionWidth: 10, // 5-20 (narrow-wide extruded part at the top)
+      extrusionLevel: 0.7, // 0.5-0.9 (small-big extrusion)
+      resolution: 8 // 4-8 (# of vertices for each vertex ring)
     }
   }
 
   static getRandomParams () {
-    let bottomRadius= 20 + random(40)
+    let bottomRadius = 20 + random(40)
     return {
       height: 50 + random(60),
       bottomRadius,
