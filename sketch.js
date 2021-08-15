@@ -60,7 +60,6 @@ function showModalMessage (message, time) {
 }
 
 function riseLabel () {
-  console.log('RISE');
   inputLabel.classList.add('risen')
 }
 
