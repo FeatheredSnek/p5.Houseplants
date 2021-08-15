@@ -89,28 +89,6 @@ class Pot extends Mesh {
     endShape()
   }
 
-  bridgeRings (vertexArrayA, vertexArrayB, color) {
-    if (vertexArrayA.length != vertexArrayB.length) {
-      console.warn('Arrays not of equal length')
-    }
-    else {
-      for (let i = 0; i < vertexArrayA.length; i++) {
-        let top1 = vertexArrayA[i]
-        let top2 = i < vertexArrayA.length-1 ? vertexArrayA[i+1] : vertexArrayA[0]
-        let bot1 = vertexArrayB[i]
-        let bot2 = i < vertexArrayB.length-1 ? vertexArrayB[i+1] : vertexArrayB[0]
-        fill(color)
-        noStroke()
-        beginShape( )
-        vertex(top1.x, top1.y, top1.z)
-        vertex(top2.x, top2.y, top2.z)
-        vertex(bot2.x, bot2.y, bot2.z)
-        vertex(bot1.x, bot1.y, bot1.z)
-        endShape()
-      }
-    }
-  }
-
   drawCylinder (vertexArrayA, vertexArrayB, uA, uB) {
     if (vertexArrayA.length != vertexArrayB.length) {
       console.warn('Arrays not of equal length')
