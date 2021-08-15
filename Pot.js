@@ -23,18 +23,18 @@ class Pot extends Mesh {
     this.extrusionWidth = params.extrusionWidth
     this.extrusionHeight = params.height * params.extrusionLevel
     this.resolution = params.resolution
+    this.groundHeight = 0.9 * params.height
 
     let topRadius = params.bottomRadius * (1 + params.slant)
     let extrusionBottomRadius = params.bottomRadius * (1 + params.slant * params.extrusionLevel) + params.extrusionWidth
     let extrusionTopRadius = params.bottomRadius * (1 + params.slant) + params.extrusionWidth
     let groundRadius = params.bottomRadius * (1 + params.slant * 0.9)
-    let groundHeight = 0.9 * params.height
 
     this.bottomVertices = this.vertexRing(this.bottomRadius, 0)
     this.topVertices = this.vertexRing(topRadius, this.height)
     this.extrusionBottomVertices = this.vertexRing(extrusionBottomRadius, this.extrusionHeight)
     this.extrusionTopVertices = this.vertexRing(extrusionTopRadius, this.height)
-    this.groundVertices = this.vertexRing(groundRadius, groundHeight)
+    this.groundVertices = this.vertexRing(groundRadius, this.groundHeight)
 
     this.texture = texture || null
 
