@@ -19,13 +19,6 @@ class Stalk extends Mesh {
     this.translateMesh(this.position)
   }
 
-  updateShape (length, curvature, thickness) {
-    this.length = length
-    this.curvature = curvature
-    this.thickness = thickness
-    this.vertices = this.generateVertices()
-  }
-
   generateVertices () {
     let lengthStep = this.length / this.resolution
     let coords = createVector(0,0)
