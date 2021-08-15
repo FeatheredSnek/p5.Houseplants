@@ -32,23 +32,17 @@ const parser = {
   },
 
   // Validation wrapper, uses try-catch to handle JSON parsing errors
+  // parseInput (inputCode) {
   parseInput (inputCode) {
     let inputJSON = parser.decodeJSON(inputCode)
-    let isValid = false
     try {
       let dataObject = JSON.parse(inputJSON)
       let schemaObject = JSON.parse(parser.schema)
-      isValid = parser.validateStructure(dataObject, schemaObject)
-      if (!isValid) {
-        console.error('data structure error')
-        return false
-      }
-      else {
-        return dataObject
-      }
+      parser.validateStructure(dataObject, schemaObject)
+      return dataObject
     }
-    catch {
-      console.error('json syntax error')
+    catch (err) {
+      console.error(err.message)
       return false
     }
   },
@@ -60,7 +54,7 @@ const parser = {
   validateStructure (obj, schema) {
     for (let p in schema) {
       let hasProp = obj.hasOwnProperty(p)
-      if (!hasProp) return false
+      if (!hasProp) return new Error('Validation error: invalid data structure')
       let isObject = schema[p] instanceof Object && !(schema[p] instanceof Array)
       let isArray = (schema[p] instanceof Array)
       if (isObject) {
@@ -72,7 +66,7 @@ const parser = {
         }
       }
       else if (p != 'outline' && typeof obj[p] != 'number'){
-        return false
+        return new Error('Validation error: primitive value is not a number')
       }
     }
     return true
