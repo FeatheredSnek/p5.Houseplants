@@ -23,14 +23,6 @@ class Leaf extends Mesh {
 
   }
 
-  updateShape (length, width, skew, curvature) {
-    this.length = length
-    this.width = width
-    this.skew = skew
-    this.curvature = curvature
-    this.vertices = this.generateVertices()
-  }
-
   generateVertices () {
     let vertices = []
     let lengthStep = this.length / this.resolution
