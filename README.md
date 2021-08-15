@@ -1,5 +1,6 @@
 # p5 Houseplants
-PSX styled, low poly houseplant generator in p5.js
+PSX styled, low poly houseplant generator in p5.js.
+Get a load of PLANTS at their [GitHub page](https://featheredsnek.github.io/p5.Houseplants/) or in [p5 editor](https://editor.p5js.org/FeatheredSnek/sketches/oje4gwJd7).
 
 ## Background and purpose
 I wanted to make some PSX styled houseplant models. Inspired by
